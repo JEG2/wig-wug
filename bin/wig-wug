@@ -1,0 +1,107 @@
+#!/usr/bin/env ruby -wKU
+
+require File.join(File.dirname(__FILE__), *%w[.. lib wig_wug])
+
+require "optparse"
+
+options = {:delay => 0, :text => true, :legend => true}
+
+ARGV.options do |opts|
+  opts.banner = "Usage:  #{File.basename($PROGRAM_NAME)} [OPTIONS] PLAYERS"
+  
+  opts.separator ""
+  opts.separator "Specific Options:"
+  
+  opts.on( "-l", "--limit TURNS", Integer,
+           "A turn limit for the game." ) do |turns|
+    options[:limit] = turns
+  end
+  opts.on( "-d", "--delay SECONDS", Float,
+           "A pause between turns." ) do |seconds|
+    options[:delay] = seconds
+  end
+  opts.on( "-m", "--map PATH", String,
+           "A map file to use for the game." ) do |path|
+    options[:map] = path
+  end
+  opts.on( "--size LIMIT", Integer,
+           "A maximun size for random board generation." ) do |size|
+    options[:size_limit] = size
+  end
+  opts.on( "-w", "--width SIZE", Integer,
+           "A width for random board generation." ) do |width|
+    options[:width] = width
+  end
+  opts.on( "-h", "--height SIZE", Integer,
+           "A height for random board generation." ) do |height|
+    options[:height] = height
+  end
+  opts.on( "-f", "--fleegols", Integer,
+           "A percentage chance a cell holds a fleegol." ) do |fleegol|
+    options[:fleegols] = fleegol
+  end
+  opts.on( "-g", "--geegol", Integer,
+           "A percentage chance a cell holds a geegol." ) do |geegol|
+    options[:geegols] = geegol
+  end
+  opts.on( "-t", "--[no-]text",
+           "Show text output." ) do |text|
+    options[:text] = text
+  end
+  opts.on( "-s", "--svg DIRECTORY", String,
+           "Turn on SVG output, saved to the directory." ) do |directory|
+    options[:svg] = directory
+  end
+  opts.on( "--scale UNITS", Integer,
+           "The unit multiplier used in SVG graphics" ) do |units|
+    options[:scale] = units
+  end
+  opts.on( "--[no-]grid",
+           "Add a grid to SVG graphics." ) do |grid|
+    options[:grid] = grid
+  end
+  opts.on( "--[no-]legend",
+           "Add a legend to SVG graphics." ) do |legend|
+    options[:legend] = legend
+  end
+  
+  opts.separator "Common Options:"
+  
+  opts.on( "-?", "--help",
+           "Show this message." ) do
+    puts opts
+    exit
+  end
+  
+  begin
+    opts.parse!
+    raise if ARGV.empty?
+  rescue
+    abort opts.to_s
+  end
+end
+
+# setup players
+players = ARGV.map do |brain|
+  require brain
+  eval(File.read(brain)[/^\s*class\s+(\w+)/, 1])
+end
+
+# build map
+map = if options[:map]
+        WigWug::Map.from_file(options[:map], players)
+      else
+        WigWug::Map.generate(options.merge(:brains => players))
+      end
+
+# run game
+game   = WigWug::Game.new(map, options)
+result = case winner = game.run(*options.values_at(:delay, :limit))
+when WigWug::Player
+  "Result:  #{winner.name} won."
+when TrueClass
+  "Result:  All players lost."
+when FalseClass
+  "Result:  The time limit expired."
+end
+puts result if options[:text]
