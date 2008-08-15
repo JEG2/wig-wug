@@ -43,7 +43,7 @@ module WigWug
             next if x_off.zero? and y_off.zero?
             x = player.x + x_off
             y = player.y + y_off
-            if x.between?(0, @map.width) and y.between?(0, @map.height)
+            if x.between?(0, @map.width - 1) and y.between?(0, @map.height - 1)
               surrounding[y_off + 1][x_off + 1] = @map[x, y]
             else
               surrounding[y_off + 1][x_off + 1] = "E"
