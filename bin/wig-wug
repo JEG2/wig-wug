@@ -36,11 +36,11 @@ ARGV.options do |opts|
            "A height for random board generation." ) do |height|
     options[:height] = height
   end
-  opts.on( "-f", "--fleegols", Integer,
+  opts.on( "-f", "--fleegols PERCENT", Integer,
            "A percentage chance a cell holds a fleegol." ) do |fleegol|
     options[:fleegols] = fleegol
   end
-  opts.on( "-g", "--geegol", Integer,
+  opts.on( "-g", "--geegol PERCENT", Integer,
            "A percentage chance a cell holds a geegol." ) do |geegol|
     options[:geegols] = geegol
   end
