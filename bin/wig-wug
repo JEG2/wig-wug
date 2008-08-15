@@ -40,7 +40,7 @@ ARGV.options do |opts|
            "A percentage chance a cell holds a fleegol." ) do |fleegol|
     options[:fleegols] = fleegol
   end
-  opts.on( "-g", "--geegol PERCENT", Integer,
+  opts.on( "-g", "--geegols PERCENT", Integer,
            "A percentage chance a cell holds a geegol." ) do |geegol|
     options[:geegols] = geegol
   end
