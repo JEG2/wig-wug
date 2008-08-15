@@ -1,17 +1,1 @@
-Testers Wanted
-==============
-
-This is an early attempt at a Wig-Wug simulator.  I've not had much time to test it yet and I could use some help with that.  If you want to help, here's what you could do:
-
-1. Read about [Wig-Wug](http://therubyist.com/homework/wig-wug/)
-2. Get [my simulator](http://github.com/JEG2/wig-wug/tree/master)
-3. Look at the help for the simulator to see what is available:  /bin/wig-wug --help
-4. Do any of the following that interest you
-        * Run the code on non-Mac OS X systems to see if it's properly cross-platform
-        * Write a digger and run the simulator on it
-        * Tell me if you notice cases of the simulator not meeting the spec
-        * Tell me if you manage to break it
-    * Draw a new map (see data/maps/boxed_in.txt for the format)
-    * Send feedback:  james@grayproductions.net
-
-Please don't share diggers or strategies before the meeting, but feel free to share any other materials (like maps).
+This is the beginning of a [Wig-Wug](http://therubyist.com/homework/wig-wug/) simulator.

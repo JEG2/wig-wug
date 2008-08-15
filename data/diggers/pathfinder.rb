@@ -10,7 +10,6 @@ class Pathfinder
   def move!(*args)
     update_map(*args)
     pathfind
-    p @path
     best_move
   end
   
@@ -18,19 +17,19 @@ class Pathfinder
   
   def update_map(distances, surrounding)
     if @map
-      # grow map, if needed
+      # grow map beyond actual range, if needed
       find_ruby_and_me(distances)
-      if @me.first.zero?
-        @map.each { |row| row.unshift("O") }
+      if @me.first <= 1
+        2.times { @map.each { |row| row.unshift("O") } }
       end
-      if @me.first == @map.first.length - 1
-        @map.each { |row| row.push("O") }
+      if @me.first >= @map.first.length - 2
+        2.times { @map.each { |row| row.push("O") } }
       end
-      if @me.last.zero?
-        @map.unshift(Array.new(@map.first.size, "O"))
+      if @me.last <= 1
+        2.times { @map.unshift(Array.new(@map.first.size, "O")) }
       end
-      if @me.last == @map.length - 1
-        @map.pop(Array.new(@map.first.size, "O"))
+      if @me.last >= @map.length - 2
+        2.times { @map.push(Array.new(@map.first.size, "O")) }
       end
       find_ruby_and_me(distances)
       
@@ -56,10 +55,14 @@ class Pathfinder
       end
       @map[y][x] = "R"
       
+      # padding the map so it will pathfind to the edge
+      2.times { @map.each { |row| row.unshift("O") } }
+      2.times { @map.each { |row| row.push("O") } }
+      2.times { @map.unshift(Array.new(@map.first.size, "O")) }
+      2.times { @map.push(Array.new(@map.first.size, "O")) }
+      
       find_ruby_and_me(distances)
     end
-    
-    @map.each { |row| puts row.join }
   end
   
   def find_ruby_and_me(distances)
