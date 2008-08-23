@@ -105,7 +105,7 @@ module WigWug
       center = scale  / 2.0
       max_x  = width  * scale
       max_y  = height * scale
-      bottom = max_y + (options[:legend] ? players.size * 15 + 5 : 0)
+      bottom = max_y + (options[:legend] ? players.size * 15 + 5 : 0) + 20
     
       SVG::Image.new(max_x, bottom) do |svg|
         # background
@@ -131,6 +131,11 @@ module WigWug
                       :font_size   => 12,
                       :fill        => :white )
           end
+          down = max_y + players.size * 15 + 5
+          svg.text("Turn #{options[:turn]}", scale + 5, down + 12,
+                   :font_family => "Verdana",
+                   :font_size   => 12,
+                   :fill        => :white )
         end
 
         each_with_xy do |cell, x, y|

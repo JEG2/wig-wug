@@ -109,7 +109,7 @@ module WigWug
     def draw_svg
       return unless @svg
       File.open(File.join(@svg, "turn_#{@turn}.svg"), "w") do |svg|
-        svg << @map.to_svg(@options)
+        svg << @map.to_svg(@options.merge(:turn => @turn))
       end
     end
   end
