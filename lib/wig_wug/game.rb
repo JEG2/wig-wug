@@ -35,7 +35,7 @@ module WigWug
         end
         
         # find player's move
-        distance    = [@map.ruby_x - player.x, -(@map.ruby_y - player.y)]
+        distance    = [@map.ruby_x - player.x, -(@map.ruby_y - player.y)].map! {|c| c.abs}
         surrounding = Array.new(3) { Array.new(3, nil) }
         surrounding[1][1] = "P"
         -1.upto(1) do |y_off|
