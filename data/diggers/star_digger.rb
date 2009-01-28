@@ -96,9 +96,6 @@ class StarDigger
   end
 
   def move!(distance, matrix)
-    distance.map! {|c| c.abs } # adjust distance measurement to work with JEG2's Wig-Wug simulator
-                               # (it will report negative distances, which I consider a bug)
-                               # see http://github.com/JEG2/wig-wug/tree
     @target_position_initialized ||= initialize_target_position(distance)
     update_player_position!
 
